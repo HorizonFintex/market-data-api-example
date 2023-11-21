@@ -1,0 +1,66 @@
+﻿@page "/timeandsales"
+@attribute [StreamRendering]
+
+<PageTitle>Time And Sales</PageTitle>
+
+<h1>Time And Sales for @ApiUtils.Symbol, page 1</h1>
+
+
+@if (timeAndSales == null)
+{
+   <MarketDataLoading></MarketDataLoading>
+}
+else
+{
+
+  if (timeAndSales != null && timeAndSales.Count > 0)
+  {
+    <!-- Create a table of all the properties in marketData -->
+    <table class="table">
+      <thead>
+      <tr>
+        <!-- use reflection and write a <th>></th> for each property name in the marketData object -->
+        @foreach (var property in timeAndSales[0].GetType().GetProperties())
+        {
+          <th>@property.Name</th>
+        }
+      </tr>
+      </thead>
+      <tbody>
+      
+        @foreach (var timeAndSalesItem in timeAndSales)
+        {
+          <tr>
+          <!-- use reflection and write a <td></td> for each property value in the marketData object -->
+          @foreach (var property in timeAndSalesItem.GetType().GetProperties())
+          {
+              <td>@property.GetValue(timeAndSalesItem, null)</td>
+          }
+          </tr>
+        }
+      </tbody>
+
+    </table>
+  }
+  else
+  {
+    <p>No Data Returned</p>
+  }
+}
+
+@code {
+  private List<TimeAndSalesModel> timeAndSales;
+
+  protected override async Task OnInitializedAsync()
+  {
+
+    var apiUtils = new ApiUtils();
+    timeAndSales = await apiUtils.TimeAndSales(ApiUtils.Symbol, "0");
+
+    if (timeAndSales == null)
+    {
+      timeAndSales = new List<TimeAndSalesModel>();
+    }
+  }
+
+}

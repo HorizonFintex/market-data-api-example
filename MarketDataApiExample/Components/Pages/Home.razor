@@ -1,0 +1,41 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+
+<div class="apiinfo">
+  
+  @if (string.IsNullOrWhiteSpace(ApiUtils.SubscriptionKey))
+  {
+    <h3 class="text-danger">
+      !!! The Subscription Key in ApiUtils.cs is not set.  Contact the Upstream help desk for a subscription key to use the API. !!!
+    </h3>
+    <br/>
+  }
+
+
+  <h3>Upstream Stock Market Data & Financial Research</h3>
+  <p>Upstream Market Data APIs powering websites, media portals and financial service corporations.</p>
+  <br/>
+  <h3>Financial Data APIs</h3>
+  <p>Uptream provides JSON market data on demand where you can request quotes, news, history, charts, fundamentals and research as you need it.</p>
+
+  <p>Built on a scalable, redundant system that aggregates, manages, and provides data from the Upstream stock exchange.</p>
+
+  <a href="https://apideveloper.upstream.exchange/" target="_blank">Explore Our Market Data APIs</a>
+  <br/>
+  <br/>
+
+  <h3>Contact Us</h3>
+
+  <p>
+    We would love to discuss Upstream Data Solutions with you. If you have any questions or you would like a demo, please reach out to us <a href="https://upstream.exchange/#contactUs" target="_blank">here</a>.
+  </p>
+
+
+  <h3>Using the Example Project</h3>
+
+  <p>
+    To use the example project, set the Subscription Key in ApiUtils.cs to your Upstream API Subscription Key.
+  </p>
+</div>

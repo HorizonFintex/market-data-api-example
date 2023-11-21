@@ -1,0 +1,66 @@
+﻿@page "/news"
+@attribute [StreamRendering]
+
+<PageTitle>News</PageTitle>
+
+<h1>News for @ApiUtils.Symbol</h1>
+
+
+@if (news == null)
+{
+   <MarketDataLoading></MarketDataLoading>
+}
+else
+{
+
+  if (news != null && news.Count > 0)
+  {
+    <!-- Create a table of all the properties in marketData -->
+    <table class="table">
+      <thead>
+      <tr>
+        <!-- use reflection and write a <th>></th> for each property name in the marketData object -->
+        @foreach (var property in news[0].GetType().GetProperties())
+        {
+          <th>@property.Name</th>
+        }
+      </tr>
+      </thead>
+      <tbody>
+      
+        @foreach (var newsItem in news)
+        {
+          <tr>
+          <!-- use reflection and write a <td></td> for each property value in the marketData object -->
+          @foreach (var property in newsItem.GetType().GetProperties())
+          {
+              <td>@property.GetValue(newsItem, null)</td>
+          }
+          </tr>
+        }
+      </tbody>
+
+    </table>
+  }
+  else
+  {
+    <p>No Data Returned</p>
+  }
+}
+
+@code {
+  private List<NewsModel> news;
+
+  protected override async Task OnInitializedAsync()
+  {
+
+    var apiUtils = new ApiUtils();
+    news = await apiUtils.GetNews(ApiUtils.Symbol);
+
+    if (news == null)
+    {
+      news = new List<NewsModel>();
+    }
+  }
+
+}

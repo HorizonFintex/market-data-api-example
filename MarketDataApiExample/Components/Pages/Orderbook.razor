@@ -1,0 +1,66 @@
+﻿@page "/orderbook"
+@attribute [StreamRendering]
+
+<PageTitle>Orderbook</PageTitle>
+
+<h1>Orderbook for @ApiUtils.Symbol</h1>
+
+
+@if (orderbook == null)
+{
+   <MarketDataLoading></MarketDataLoading>
+}
+else
+{
+
+  if (orderbook != null && orderbook.Count > 0)
+  {
+    <!-- Create a table of all the properties in marketData -->
+    <table class="table">
+      <thead>
+      <tr>
+        <!-- use reflection and write a <th>></th> for each property name in the marketData object -->
+        @foreach (var property in orderbook[0].GetType().GetProperties())
+        {
+          <th>@property.Name</th>
+        }
+      </tr>
+      </thead>
+      <tbody>
+      
+        @foreach (var orderbookItem in orderbook)
+        {
+          <tr>
+          <!-- use reflection and write a <td></td> for each property value in the marketData object -->
+          @foreach (var property in orderbookItem.GetType().GetProperties())
+          {
+              <td>@property.GetValue(orderbookItem, null)</td>
+          }
+          </tr>
+        }
+      </tbody>
+
+    </table>
+  }
+  else
+  {
+    <p>No Data Returned</p>
+  }
+}
+
+@code {
+  private List<OrderbookModel> orderbook;
+
+  protected override async Task OnInitializedAsync()
+  {
+
+    var apiUtils = new ApiUtils();
+    orderbook = await apiUtils.GetOrderbookBySymbol(ApiUtils.Symbol);
+
+    if (orderbook == null)
+    {
+      orderbook = new List<OrderbookModel>();
+    }
+  }
+
+}

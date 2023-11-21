@@ -1,0 +1,51 @@
+﻿@page "/marketdata"
+@attribute [StreamRendering]
+
+<PageTitle>Market Data</PageTitle>
+
+<h1>Market Data for @ApiUtils.Symbol</h1>
+
+
+@if (marketData == null)
+{
+   <MarketDataLoading></MarketDataLoading>
+}
+else
+{
+
+  <!-- Create a table of all the properties in marketData -->
+  <table class="table">
+    <thead>
+    <tr>
+      <!-- use reflection and write a <th>></th> for each property name in the marketData object -->
+      @foreach (var property in marketData.GetType().GetProperties())
+      {
+        <th>@property.Name</th>
+      }
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <!-- use reflection and write a <td></td> for each property value in the marketData object -->
+      @foreach (var property in marketData.GetType().GetProperties())
+      {
+        <td>@property.GetValue(marketData, null)</td>
+      }
+    </tr>
+    </tbody>
+
+  </table>
+
+}
+
+@code {
+  private MarketDataModel marketData;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var apiUtils = new ApiUtils();
+    marketData = await apiUtils.GetMarketData(ApiUtils.Symbol);
+
+  }
+
+}
