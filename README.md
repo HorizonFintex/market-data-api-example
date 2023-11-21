@@ -6,7 +6,7 @@ Example project using the Upstream Market Data API
 
 This project is a dot net 8, Blasor project.  Open the .sln file in Visual Studion 2022 or greater to run this project.
 
-Contact Upstream support to receive a Subscription Key and begin integrating with our API.  Set the Subscription Key Value in ApiUtils.cs
+Contact Upstream support to receive a Subscription Key and begin integrating with our API.  Set the Subscription Key Value in [ApiUtils.cs](https://github.com/HorizonFintex/market-data-api-example/blob/dev/MarketDataApiExample/ApiUtils.cs)
 
 ## Upstream Stock Market Data & Financial Research
 Upstream Market Data APIs powering websites, media portals and financial service corporations.
